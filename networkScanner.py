@@ -1,6 +1,17 @@
 import sys
 import os
 import subprocess
+from halo import Halo
+
+ascii_art = r"""
+▗▖  ▗▖▗▄▄▄▖▗▄▄▄▖▗▖ ▗▖ ▗▄▖ ▗▄▄▖ ▗▖ ▗▖ ▗▄▄▖ ▗▄▄▖ ▗▄▖ ▗▖  ▗▖▗▖  ▗▖▗▄▄▄▖▗▄▄▖ 
+▐▛▚▖▐▌▐▌     █  ▐▌ ▐▌▐▌ ▐▌▐▌ ▐▌▐▌▗▞▘▐▌   ▐▌   ▐▌ ▐▌▐▛▚▖▐▌▐▛▚▖▐▌▐▌   ▐▌ ▐▌
+▐▌ ▝▜▌▐▛▀▀▘  █  ▐▌ ▐▌▐▌ ▐▌▐▛▀▚▖▐▛▚▖  ▝▀▚▖▐▌   ▐▛▀▜▌▐▌ ▝▜▌▐▌ ▝▜▌▐▛▀▀▘▐▛▀▚▖
+▐▌  ▐▌▐▙▄▄▖  █  ▐▙█▟▌▝▚▄▞▘▐▌ ▐▌▐▌ ▐▌▗▄▄▞▘▝▚▄▄▖▐▌ ▐▌▐▌  ▐▌▐▌  ▐▌▐▙▄▄▖▐▌ ▐▌
+                                                                By S3n
+"""
+
+print(ascii_art)
 
 def main():
     
@@ -28,8 +39,9 @@ def main():
 
     
     for ip in ip_list:
-        print(f"[ + ] Scanning {ip}...")
         try:
+            spinner = Halo(text=f'Scanning {ip}...\n', spinner='dots')
+            spinner.start()
             subprocess.run(
                 [
                     "nmap",
@@ -41,12 +53,13 @@ def main():
                     "-n",
                     "-Pn",
                     "-oN",
-                    f"{ip}_scan.txt",
+                    ip,
                     ip,
                 ],
                 stdout=subprocess.DEVNULL,  
                 stderr=subprocess.DEVNULL,
             )
+            spinner.stop()
         except Exception as e:
             print(f"[ - ] Error scanning {ip}: {e}")
 
