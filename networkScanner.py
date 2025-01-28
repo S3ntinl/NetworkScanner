@@ -27,20 +27,18 @@ def main():
         print(f"[ + ] File '{ip_list}' does not exist.")
         sys.exit(1)
 
-    print("[ + ] About to scan:\n")
-
+    print("IP List: \n")
     
     with open(ip_list, 'r') as file:
         ip_list = [line.strip() for line in file if line.strip()]  
         for ip in ip_list:
-            print(f"[ + ] {ip}")
+            print(f":: {ip}")
 
-    print("\n")
-
+    print("\r")
     
     for ip in ip_list:
         try:
-            spinner = Halo(text=f'Scanning {ip}...\n', spinner='dots')
+            spinner = Halo(text=f'Scanning {ip}...', spinner='dots')
             spinner.start()
             subprocess.run(
                 [
